@@ -1,0 +1,36 @@
+{
+  "entities": {
+    "Chat": {
+      "title": "Chat",
+      "description": "A chat session with a document",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "The ID of the user who owns the chat" },
+        "title": { "type": "string", "description": "The title of the chat (usually the document name)" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" },
+        "messages": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "role": { "type": "string", "enum": ["user", "assistant"] },
+              "text": { "type": "string" },
+              "hasAttachment": { "type": "boolean" },
+              "attachmentName": { "type": "string" }
+            },
+            "required": ["id", "role", "text"]
+          }
+        }
+      },
+      "required": ["userId", "title", "createdAt", "updatedAt", "messages"]
+    }
+  },
+  "firestore": {
+    "/chats/{chatId}": {
+      "schema": { "$ref": "#/entities/Chat" },
+      "description": "Stores chat sessions for users"
+    }
+  }
+}
