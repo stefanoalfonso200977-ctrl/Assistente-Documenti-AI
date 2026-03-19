@@ -77,10 +77,10 @@ export default function App() {
     return () => unsubscribe();
   }, [user]);
 
-  // Auto-scroll to bottom when messages change
+  // Auto-scroll to bottom only when a new message is added
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  }, [messages.length]);
 
   const handleLogin = async () => {
     try {
