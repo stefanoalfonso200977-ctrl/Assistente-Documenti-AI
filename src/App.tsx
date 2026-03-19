@@ -259,7 +259,7 @@ export default function App() {
       });
 
       const responseStream = await ai.models.generateContentStream({
-        model: "gemini-3.1-pro-preview",
+        model: "gemini-3-flash-preview",
         contents,
         config: {
           systemInstruction: "Sei un assistente AI esperto nell'analisi di documenti. Rispondi alle domande dell'utente basandoti sul documento fornito. Estrai le informazioni rilevanti e spiegale chiaramente in italiano.",
@@ -592,7 +592,7 @@ export default function App() {
             </form>
             <div className="text-center mt-2">
                <p className="text-xs text-slate-400">
-                 Sviluppato con Gemini 3.1 Pro. I documenti vengono elaborati in tempo reale.
+                 Sviluppato con Gemini 3 Flash. I documenti vengono elaborati in tempo reale.
                </p>
             </div>
           </div>
