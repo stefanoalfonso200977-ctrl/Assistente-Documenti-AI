@@ -42,6 +42,7 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [fileBase64, setFileBase64] = useState<string | null>(null);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -77,10 +78,12 @@ export default function App() {
     return () => unsubscribe();
   }, [user]);
 
-  // Auto-scroll to bottom only when a new message is added
+  // Auto-scroll to bottom internally
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages.length]);
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
+  }, [messages]);
 
   const handleLogin = async () => {
     try {
@@ -335,7 +338,7 @@ export default function App() {
   }
 
   return (
-    <div className="flex h-screen bg-slate-50 font-sans overflow-hidden">
+    <div className="flex h-[100dvh] bg-slate-50 font-sans overflow-hidden">
       {/* Mobile Sidebar Overlay */}
       {isSidebarOpen && (
         <div className="fixed inset-0 bg-black/50 z-40 md:hidden" onClick={() => setIsSidebarOpen(false)} />
@@ -393,7 +396,7 @@ export default function App() {
       </aside>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col h-screen min-w-0">
+      <div className="flex-1 flex flex-col h-[100dvh] min-w-0">
         {/* Header */}
         <header className="bg-white border-b border-slate-200 px-4 sm:px-6 py-4 flex items-center justify-between shadow-sm z-10">
           <div className="flex items-center">
@@ -415,7 +418,7 @@ export default function App() {
         </header>
 
         {/* Chat Area */}
-        <main className="flex-1 overflow-y-auto p-4 sm:p-6">
+        <main ref={chatContainerRef} className="flex-1 overflow-y-auto p-4 sm:p-6 scroll-smooth">
           <div className="max-w-4xl mx-auto space-y-6">
             {messages.length === 0 ? (
               <div className="flex flex-col items-center justify-center h-full mt-20 text-center space-y-4">
